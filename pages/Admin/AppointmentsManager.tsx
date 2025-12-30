@@ -161,73 +161,77 @@ export default function AdminAppointments({ appointments, setAppointments, leads
       )}
 
       <div className="bg-[#111] border border-white/5 rounded-[3rem] overflow-hidden shadow-2xl relative">
-        <div className="grid grid-cols-7 border-b border-white/5 bg-white/[0.01]">
-          <div className="p-8 border-r border-white/5 bg-black/40 flex items-center justify-center">
-             <Clock className="w-5 h-5 text-gray-600" />
-          </div>
-          {days.map(day => (
-            <div key={day} className="p-8 text-center border-r border-white/5 last:border-r-0">
-              <span className="text-[10px] font-extrabold text-gray-500 uppercase tracking-[0.3em] block mb-1">{day}</span>
-              <span className="text-[11px] font-medium text-gray-700">{getDayDate(day).split('-').reverse().slice(0, 2).join('/')}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="divide-y divide-white/5 bg-gradient-to-b from-transparent to-black/20">
-          {times.map(time => (
-            <div key={time} className="grid grid-cols-7 min-h-[140px]">
-              <div className="p-6 border-r border-white/5 bg-black/20 flex items-center justify-center transition-colors hover:bg-black/40">
-                <span className="text-sm font-outfit font-bold text-gray-500 tracking-tighter">{time}</span>
+        <div className="overflow-x-auto custom-scrollbar">
+          <div className="min-w-[1000px]">
+            <div className="grid grid-cols-7 border-b border-white/5 bg-white/[0.01]">
+              <div className="p-8 border-r border-white/5 bg-black/40 flex items-center justify-center">
+                <Clock className="w-5 h-5 text-gray-600" />
               </div>
-              {days.map(day => {
-                const dayDate = getDayDate(day);
-                const appt = appointments.find(a => a.date === dayDate && a.time === time);
-                const lead = leads.find(l => l.id === appt?.leadId);
-                const service = services.find(s => s.id === appt?.serviceId);
-
-                return (
-                  <div key={day} className="p-2 border-r border-white/5 last:border-r-0 relative group">
-                    {appt && lead && service ? (
-                      <div className="absolute inset-3 bg-red-600/5 border border-red-600/20 rounded-[1.5rem] p-4 flex flex-col justify-between hover:scale-[1.02] hover:bg-red-600/10 hover:border-red-600/40 transition-all duration-300 cursor-pointer shadow-xl z-10 overflow-hidden backdrop-blur-sm group/card">
-                        <div className="absolute -top-4 -right-4 w-12 h-12 bg-red-600/10 rounded-full blur-2xl group-hover/card:bg-red-600/20 transition-all" />
-                        
-                        <div className="relative z-10">
-                          <div className="flex items-center justify-between mb-2">
-                             <div className="px-2 py-1 bg-red-600/10 rounded text-[9px] font-bold text-red-600 uppercase tracking-widest border border-red-600/10">
-                                {service.name.split(' ')[0]}
-                             </div>
-                             <Check className="w-3 h-3 text-red-600/40" />
-                          </div>
-                          <h4 className="text-[11px] font-extrabold text-white leading-tight mb-1 group-hover/card:text-red-500 transition-colors uppercase">{service.name}</h4>
-                          <p className="text-[12px] font-bold text-gray-300">{lead.name}</p>
-                        </div>
-
-                        <div className="flex items-center justify-between text-[10px] text-gray-500 font-bold relative z-10 mt-2">
-                          <span className="bg-white/5 px-2 py-0.5 rounded flex items-center gap-1">
-                             <Wrench className="w-2.5 h-2.5" />
-                             {lead.vehicle}
-                          </span>
-                          <span className="flex items-center gap-1 opacity-60">
-                             <Clock className="w-2.5 h-2.5" />
-                             {time}
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300 bg-red-600/[0.02]">
-                        <button 
-                           onClick={() => openQuickAdd(day, time)}
-                           className="w-12 h-12 bg-white/5 hover:bg-red-600 rounded-2xl flex items-center justify-center text-gray-600 hover:text-white transition-all hover:scale-110 shadow-2xl border border-white/5"
-                        >
-                          <Plus className="w-6 h-6" />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+              {days.map(day => (
+                <div key={day} className="p-8 text-center border-r border-white/5 last:border-r-0">
+                  <span className="text-[10px] font-extrabold text-gray-500 uppercase tracking-[0.3em] block mb-1">{day}</span>
+                  <span className="text-[11px] font-medium text-gray-700">{getDayDate(day).split('-').reverse().slice(0, 2).join('/')}</span>
+                </div>
+              ))}
             </div>
-          ))}
+
+            <div className="divide-y divide-white/5 bg-gradient-to-b from-transparent to-black/20">
+              {times.map(time => (
+                <div key={time} className="grid grid-cols-7 min-h-[140px]">
+                  <div className="p-6 border-r border-white/5 bg-black/20 flex items-center justify-center transition-colors hover:bg-black/40">
+                    <span className="text-sm font-outfit font-bold text-gray-500 tracking-tighter">{time}</span>
+                  </div>
+                  {days.map(day => {
+                    const dayDate = getDayDate(day);
+                    const appt = appointments.find(a => a.date === dayDate && a.time === time);
+                    const lead = leads.find(l => l.id === appt?.leadId);
+                    const service = services.find(s => s.id === appt?.serviceId);
+
+                    return (
+                      <div key={day} className="p-2 border-r border-white/5 last:border-r-0 relative group">
+                        {appt && lead && service ? (
+                          <div className="absolute inset-3 bg-red-600/5 border border-red-600/20 rounded-[1.5rem] p-4 flex flex-col justify-between hover:scale-[1.02] hover:bg-red-600/10 hover:border-red-600/40 transition-all duration-300 cursor-pointer shadow-xl z-10 overflow-hidden backdrop-blur-sm group/card">
+                            <div className="absolute -top-4 -right-4 w-12 h-12 bg-red-600/10 rounded-full blur-2xl group-hover/card:bg-red-600/20 transition-all" />
+                            
+                            <div className="relative z-10">
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="px-2 py-1 bg-red-600/10 rounded text-[9px] font-bold text-red-600 uppercase tracking-widest border border-red-600/10">
+                                    {service.name.split(' ')[0]}
+                                </div>
+                                <Check className="w-3 h-3 text-red-600/40" />
+                              </div>
+                              <h4 className="text-[11px] font-extrabold text-white leading-tight mb-1 group-hover/card:text-red-500 transition-colors uppercase">{service.name}</h4>
+                              <p className="text-[12px] font-bold text-gray-300">{lead.name}</p>
+                            </div>
+
+                            <div className="flex items-center justify-between text-[10px] text-gray-500 font-bold relative z-10 mt-2">
+                              <span className="bg-white/5 px-2 py-0.5 rounded flex items-center gap-1">
+                                <Wrench className="w-2.5 h-2.5" />
+                                {lead.vehicle}
+                              </span>
+                              <span className="flex items-center gap-1 opacity-60">
+                                <Clock className="w-2.5 h-2.5" />
+                                {time}
+                              </span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300 bg-red-600/[0.02]">
+                            <button 
+                              onClick={() => openQuickAdd(day, time)}
+                              className="w-12 h-12 bg-white/5 hover:bg-red-600 rounded-2xl flex items-center justify-center text-gray-600 hover:text-white transition-all hover:scale-110 shadow-2xl border border-white/5"
+                            >
+                              <Plus className="w-6 h-6" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

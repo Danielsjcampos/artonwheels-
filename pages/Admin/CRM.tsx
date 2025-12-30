@@ -48,70 +48,120 @@ export default function AdminCRM({ leads, setLeads }: Props) {
       </div>
 
       <div className="bg-[#111] border border-white/5 rounded-3xl overflow-hidden">
-        <table className="w-full text-left">
-          <thead>
-            <tr className="border-b border-white/5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-              <th className="px-8 py-5">Cliente</th>
-              <th className="px-8 py-5">Veículo / Interesse</th>
-              <th className="px-8 py-5">Status</th>
-              <th className="px-8 py-5">Data</th>
-              <th className="px-8 py-5 text-right">Ações</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-white/5">
-            {leads.map((lead) => (
-              <tr key={lead.id} className="hover:bg-white/[0.02] transition-colors group">
-                <td className="px-8 py-6">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center font-bold text-gray-300">
-                      {lead.name[0]}
-                    </div>
-                    <div>
-                      <p className="font-bold text-sm">{lead.name}</p>
-                      <div className="flex items-center space-x-2 mt-1">
-                         <Mail className="w-3 h-3 text-gray-600" />
-                         <span className="text-xs text-gray-600">{lead.email}</span>
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-white/5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                <th className="px-8 py-5">Cliente</th>
+                <th className="px-8 py-5">Veículo / Interesse</th>
+                <th className="px-8 py-5">Status</th>
+                <th className="px-8 py-5">Data</th>
+                <th className="px-8 py-5 text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/5">
+              {leads.map((lead) => (
+                <tr key={lead.id} className="hover:bg-white/[0.02] transition-colors group">
+                  <td className="px-8 py-6">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center font-bold text-gray-300">
+                        {lead.name[0]}
+                      </div>
+                      <div>
+                        <p className="font-bold text-sm">{lead.name}</p>
+                        <div className="flex items-center space-x-2 mt-1">
+                          <Mail className="w-3 h-3 text-gray-600" />
+                          <span className="text-xs text-gray-600">{lead.email}</span>
+                        </div>
                       </div>
                     </div>
+                  </td>
+                  <td className="px-8 py-6">
+                    <p className="text-sm font-medium">{lead.vehicle}</p>
+                    <p className="text-xs text-gray-500 mt-1">{lead.interest}</p>
+                  </td>
+                  <td className="px-8 py-6">
+                    <select 
+                      value={lead.status}
+                      onChange={(e) => updateStatus(lead.id, e.target.value as LeadStatus)}
+                      className={`text-[10px] font-bold uppercase px-3 py-1.5 rounded-full border border-white/10 bg-transparent focus:outline-none ${
+                        lead.status === LeadStatus.NEW ? 'text-blue-500' :
+                        lead.status === LeadStatus.CLOSED ? 'text-green-500' :
+                        lead.status === LeadStatus.LOST ? 'text-gray-500' :
+                        'text-amber-500'
+                      }`}
+                    >
+                      {Object.values(LeadStatus).map(s => (
+                        <option key={s} value={s} className="bg-[#111]">{s}</option>
+                      ))}
+                    </select>
+                  </td>
+                  <td className="px-8 py-6 text-sm text-gray-500">
+                    {new Date(lead.createdAt).toLocaleDateString()}
+                  </td>
+                  <td className="px-8 py-6 text-right">
+                    <div className="flex items-center justify-end space-x-2">
+                      <button className="p-2 bg-white/5 rounded-lg hover:bg-performance-red hover:text-white transition-all">
+                        <Phone className="w-4 h-4" />
+                      </button>
+                      <button className="p-2 bg-white/5 rounded-lg hover:bg-performance-red hover:text-white transition-all">
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile Card View */}
+        <div className="md:hidden divide-y divide-white/5">
+          {leads.map((lead) => (
+            <div key={lead.id} className="p-6 space-y-4">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center font-bold text-gray-300">
+                    {lead.name[0]}
                   </div>
-                </td>
-                <td className="px-8 py-6">
-                  <p className="text-sm font-medium">{lead.vehicle}</p>
-                  <p className="text-xs text-gray-500 mt-1">{lead.interest}</p>
-                </td>
-                <td className="px-8 py-6">
-                  <select 
-                    value={lead.status}
-                    onChange={(e) => updateStatus(lead.id, e.target.value as LeadStatus)}
-                    className={`text-[10px] font-bold uppercase px-3 py-1.5 rounded-full border border-white/10 bg-transparent focus:outline-none ${
-                      lead.status === LeadStatus.NEW ? 'text-blue-500' :
-                      lead.status === LeadStatus.CLOSED ? 'text-green-500' :
-                      lead.status === LeadStatus.LOST ? 'text-gray-500' :
-                      'text-amber-500'
-                    }`}
-                  >
-                    {Object.values(LeadStatus).map(s => (
-                      <option key={s} value={s} className="bg-[#111]">{s}</option>
-                    ))}
-                  </select>
-                </td>
-                <td className="px-8 py-6 text-sm text-gray-500">
-                  {new Date(lead.createdAt).toLocaleDateString()}
-                </td>
-                <td className="px-8 py-6 text-right">
-                  <div className="flex items-center justify-end space-x-2">
-                    <button className="p-2 bg-white/5 rounded-lg hover:bg-performance-red hover:text-white transition-all">
-                      <Phone className="w-4 h-4" />
-                    </button>
-                    <button className="p-2 bg-white/5 rounded-lg hover:bg-performance-red hover:text-white transition-all">
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
+                  <div>
+                    <h4 className="font-bold text-sm">{lead.name}</h4>
+                    <p className="text-xs text-gray-500">{new Date(lead.createdAt).toLocaleDateString()}</p>
                   </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </div>
+                <select 
+                  value={lead.status}
+                  onChange={(e) => updateStatus(lead.id, e.target.value as LeadStatus)}
+                  className={`text-[10px] font-bold uppercase px-3 py-1 rounded-full border border-white/10 bg-transparent focus:outline-none ${
+                    lead.status === LeadStatus.NEW ? 'text-blue-500' :
+                    lead.status === LeadStatus.CLOSED ? 'text-green-500' :
+                    lead.status === LeadStatus.LOST ? 'text-gray-500' :
+                    'text-amber-500'
+                  }`}
+                >
+                  {Object.values(LeadStatus).map(s => (
+                    <option key={s} value={s} className="bg-[#111]">{s}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <p className="text-sm font-medium">{lead.vehicle}</p>
+                <p className="text-xs text-gray-500">{lead.interest}</p>
+              </div>
+              <div className="flex gap-2">
+                <button className="flex-1 flex items-center justify-center space-x-2 p-3 bg-white/5 rounded-xl hover:bg-performance-red transition-all">
+                  <Phone className="w-4 h-4" />
+                  <span className="text-xs font-bold uppercase tracking-widest">Ligar</span>
+                </button>
+                <button className="flex-1 flex items-center justify-center space-x-2 p-3 bg-white/5 rounded-xl hover:bg-performance-red transition-all">
+                  <Mail className="w-4 h-4" />
+                  <span className="text-xs font-bold uppercase tracking-widest">Email</span>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

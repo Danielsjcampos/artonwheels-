@@ -111,7 +111,7 @@ export default function AdminWorkshop({ workOrders, setWorkOrders, leads }: Prop
           </h3>
         </div>
         
-        <div className="overflow-x-auto">
+        <div className="hidden md:block">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-white/5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
@@ -161,13 +161,50 @@ export default function AdminWorkshop({ workOrders, setWorkOrders, leads }: Prop
                   </td>
                 </tr>
               ))}
-              {workOrders.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="px-8 py-20 text-center text-gray-600 italic">Nenhuma OS em aberto.</td>
-                </tr>
-              )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile OS Cards */}
+        <div className="md:hidden divide-y divide-white/5">
+          {workOrders.map((os) => (
+            <div key={os.id} className="p-6 space-y-4">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="font-mono performance-red font-bold">{os.id}</p>
+                  <p className="text-[10px] text-gray-500 uppercase font-bold">Cód: {os.trackingCode}</p>
+                </div>
+                <span className={`text-[10px] font-bold uppercase px-3 py-1 rounded-full border border-white/10 ${
+                  os.status === WorkOrderStatus.READY ? 'bg-green-500/10 text-green-500' : 'bg-performance-red/10 text-performance-red'
+                }`}>
+                  {os.status}
+                </span>
+              </div>
+              <div>
+                <h4 className="font-bold">{os.clientName}</h4>
+                <p className="text-xs text-gray-500 uppercase tracking-tight">{os.vehicle} • {os.plate}</p>
+              </div>
+              <div className="flex items-center justify-between pt-2">
+                <p className="font-outfit font-extrabold text-lg text-white">
+                  € {os.items.reduce((acc, item) => acc + (item.quantity * item.unitPrice), 0).toLocaleString()}
+                </p>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => { setEditingOS(os); setFormData(os); setIsCreating(true); }}
+                    className="p-3 bg-white/5 rounded-xl text-white"
+                  >
+                    <Wrench className="w-4 h-4" />
+                  </button>
+                  <a href={`#/tracking/${os.trackingCode}`} target="_blank" className="p-3 bg-white/5 rounded-xl text-white">
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+          {workOrders.length === 0 && (
+            <div className="p-20 text-center text-gray-600 italic">Nenhuma OS em aberto.</div>
+          )}
         </div>
       </div>
 

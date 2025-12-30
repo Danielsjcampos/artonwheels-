@@ -181,7 +181,7 @@ export default function AdminFinance({ records, setRecords }: Props) {
               <button className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-gray-400"><Filter className="w-4 h-4" /></button>
            </div>
         </div>
-        <div className="overflow-x-auto">
+        <div className="hidden md:block">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-white/5 text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] bg-[#0a0a0a]">
@@ -206,6 +206,24 @@ export default function AdminFinance({ records, setRecords }: Props) {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile View */}
+        <div className="md:hidden divide-y divide-white/5">
+          {records.map((r) => (
+            <div key={r.id} className="p-6 space-y-3">
+              <div className="flex justify-between items-start">
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">{r.date}</span>
+                <span className="text-[10px] font-bold bg-white/5 px-3 py-1 rounded-full text-gray-400 border border-white/5 uppercase">{r.category}</span>
+              </div>
+              <p className="font-bold text-white/90">{r.description}</p>
+              <div className="text-right">
+                <p className={`font-outfit font-extrabold text-xl ${r.type === 'inflow' ? 'text-green-500' : 'performance-red'}`}>
+                  {r.type === 'inflow' ? '+' : '-'} €{r.amount.toLocaleString()}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

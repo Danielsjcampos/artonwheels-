@@ -34,6 +34,7 @@ import AdminSettings from './pages/Admin/Settings';
 import AdminWorkshop from './pages/Admin/WorkshopManager';
 
 import { Header } from './components/ui/header-2';
+import { MobileAdminNav } from './components/ui/mobile-admin-nav';
 
 const MainLayout = ({ settings, children }: { settings: StoreSettings, children: React.ReactNode }) => {
   const location = useLocation();
@@ -58,24 +59,25 @@ const Sidebar = ({ settings }: { settings: StoreSettings }) => {
     { icon: Calendar, name: 'Agenda', path: '/admin/appointments' },
     { icon: Settings, name: 'Ajustes', path: '/admin/settings' },
   ];
+
   return (
-    <div className="w-64 h-screen bg-[#111] border-r border-white/5 fixed left-0 top-0 pt-8 flex flex-col">
-      <div className="px-8 mb-10 flex flex-col items-center">
-        <img src={settings.logo} className="h-12 w-auto mb-4" />
-        <span className="font-outfit font-extrabold text-xs tracking-[0.4em] text-gray-500 uppercase">TECHNICAL HUB</span>
+    <aside className="hidden md:flex w-64 h-screen bg-[#0a0a0a] border-r border-white/5 flex-col fixed left-0 top-0 z-50">
+      <div className="p-8">
+        <img src={settings.logo} alt={settings.name} className="h-8 w-auto mb-10" />
+        <nav className="space-y-4">
+          {links.map(link => (
+            <Link 
+              key={link.path}
+              to={link.path}
+              className="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-xl transition-all font-medium text-sm"
+            >
+              <link.icon className="w-5 h-5" />
+              <span>{link.name}</span>
+            </Link>
+          ))}
+        </nav>
       </div>
-      <nav className="flex-1 space-y-1 px-4 overflow-y-auto">
-        {links.map((link) => (
-          <Link key={link.name} to={link.path} className="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-xl transition-all">
-            <link.icon className="w-5 h-5" />
-            <span className="text-sm font-medium">{link.name}</span>
-          </Link>
-        ))}
-      </nav>
-      <div className="p-8 border-t border-white/5">
-        <Link to="/" className="text-xs text-gray-500 hover:text-white flex items-center space-x-1"><ArrowRight className="w-3 h-3 rotate-180" /><span>Ir para o Site</span></Link>
-      </div>
-    </div>
+    </aside>
   );
 };
 
@@ -108,9 +110,10 @@ export default function App() {
           <Route path="/contact" element={<Contact addLead={addLead} settings={settings} />} />
 
           <Route path="/admin/*" element={
-            <div className="flex">
+            <div className="flex flex-col md:flex-row">
               <Sidebar settings={settings} />
-              <div className="flex-1 ml-64 min-h-screen p-8 bg-[#070707]">
+              <MobileAdminNav />
+              <div className="flex-1 md:ml-64 min-h-screen p-4 md:p-8 bg-[#070707]">
                 <Routes>
                   <Route path="/" element={<AdminDashboard leads={leads} products={products} finance={finance} />} />
                   <Route path="/workshop" element={<AdminWorkshop workOrders={workOrders} setWorkOrders={setWorkOrders} leads={leads} />} />
