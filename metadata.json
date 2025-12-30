@@ -1,0 +1,7 @@
+{
+  "name": "Arton Wheels Garage",
+  "description": "Premium automotive performance and aesthetics hub specializing in wheels, tires, and high-end detailing. Features a modern store and a full-featured CRM/ERP admin panel.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
