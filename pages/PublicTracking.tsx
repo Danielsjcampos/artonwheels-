@@ -7,6 +7,7 @@ import {
   MapPin, Phone, MessageCircle, ArrowLeft,
   Bike, ClipboardList, Info, AlertCircle
 } from 'lucide-react';
+import { SEO } from '../components/ui/seo';
 
 export default function PublicTracking({ workOrders }: { workOrders: WorkOrder[] }) {
   const { code } = useParams();
@@ -49,9 +50,12 @@ export default function PublicTracking({ workOrders }: { workOrders: WorkOrder[]
       default: return 0;
     }
   };
-
   return (
     <div className="pt-28 pb-20 px-4 max-w-4xl mx-auto">
+      <SEO 
+        title="Tracking | Acompanhe a sua Máquina" 
+        description="Insira o seu código da Ordem de Serviço para acompanhar em tempo real o estado da manutenção e performance do seu veículo."
+      />
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-outfit font-extrabold mb-4 uppercase tracking-tighter">
           Rastreio de <span className="performance-red">Performance</span>

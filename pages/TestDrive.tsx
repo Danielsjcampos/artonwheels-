@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { Lead } from '../types';
 import { Calendar, Car, Send, CheckCircle2 } from 'lucide-react';
+import { SEO } from '../components/ui/seo';
 
 interface Props {
   addLead: (lead: Omit<Lead, 'id' | 'status' | 'createdAt'>) => void;
@@ -45,6 +45,10 @@ export default function TestDrive({ addLead }: Props) {
 
   return (
     <div className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
+      <SEO 
+        title="Test Drive VIP | Experiência de Performance" 
+        description="Agende uma experiência de condução exclusiva num dos nossos veículos de demonstração. Sinta a performance ARTON na estrada."
+      />
       <div className="flex-1">
         <div className="inline-flex items-center space-x-2 bg-performance-red/10 border border-performance-red/20 px-4 py-1.5 rounded-full mb-6">
           <Car className="w-4 h-4 performance-red" />

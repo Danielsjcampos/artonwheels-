@@ -36,17 +36,17 @@ export default function AdminDashboard({ leads, products, finance }: { leads: Le
         <p className="text-gray-500">Bem-vindo ao centro de comando da Arton Wheels Garage.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {stats.map((stat) => (
-          <div key={stat.label} className="bg-[#111] border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
+          <div key={stat.label} className="bg-[#111] border border-white/5 p-5 md:p-6 rounded-2xl relative overflow-hidden group">
              <div className="absolute top-0 right-0 p-4 opacity-10 transition-opacity group-hover:opacity-20">
-               <stat.icon className="w-12 h-12" />
+               <stat.icon className="w-10 h-10 md:w-12 md:h-12" />
              </div>
              <div className={`${stat.bg} ${stat.color} w-10 h-10 rounded-lg flex items-center justify-center mb-4`}>
                <stat.icon className="w-5 h-5" />
              </div>
-             <p className="text-gray-500 text-sm font-medium">{stat.label}</p>
-             <p className="text-2xl font-bold mt-1">{stat.value}</p>
+             <p className="text-gray-500 text-xs md:text-sm font-medium">{stat.label}</p>
+             <p className="text-xl md:text-2xl font-bold mt-1">{stat.value}</p>
           </div>
         ))}
       </div>

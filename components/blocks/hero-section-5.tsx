@@ -25,15 +25,42 @@ export function HeroSection({ settings }: HeroSectionProps) {
 
     return (
         <main className="overflow-x-hidden">
-            <section className="relative min-h-screen flex flex-col justify-center">
-                <div className="py-32 md:pb-32 lg:pb-36 lg:pt-48">
-                    <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
-                        <div className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left">
+            <section className="relative min-h-[80vh] lg:min-h-screen w-full flex flex-col justify-center overflow-hidden">
+                {/* Background Video Layer */}
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                    {ytId ? (
+                        <div className="absolute top-1/2 left-1/2 w-[300%] h-[150%] md:w-[160%] md:h-[160%] lg:w-[115%] lg:h-[115%] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                            <iframe
+                                className="w-full h-full opacity-50 grayscale"
+                                src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1`}
+                                allow="autoplay; encrypted-media"
+                                frameBorder="0"
+                            ></iframe>
+                        </div>
+                    ) : (
+                        <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-cover opacity-50 grayscale"
+                            src={videoUrl}
+                        ></video>
+                    )}
+                    {/* Overlays */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-[#0a0a0a]/40"></div>
+                    <div className="absolute inset-0 bg-black/10"></div>
+                </div>
+
+                {/* Content Layer */}
+                <div className="relative z-10 w-full pt-32 pb-20 md:pt-48 md:pb-32 lg:pt-56 lg:pb-40 px-6 lg:px-12">
+                    <div className="max-w-7xl mx-auto flex flex-col items-center lg:items-start">
+                        <div className="max-w-3xl text-center lg:text-left">
                             <motion.h1 
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5 }}
-                                className="mt-8 max-w-2xl text-balance text-5xl md:text-6xl lg:mt-16 xl:text-7xl font-outfit font-extrabold tracking-tighter"
+                                className="text-5xl md:text-7xl lg:text-8xl font-outfit font-extrabold tracking-tighter leading-[0.95] mb-6"
                             >
                                 ART ON <br />
                                 <span className="text-red-600">WHEELS</span>
@@ -42,7 +69,7 @@ export function HeroSection({ settings }: HeroSectionProps) {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.1 }}
-                                className="mt-8 max-w-2xl text-balance text-lg text-gray-300 font-light"
+                                className="text-base md:text-lg lg:text-xl text-gray-300 font-light max-w-xl mx-auto lg:ml-0 mb-10"
                             >
                                 {settings.name} - A essência da performance e estética automotiva de luxo. 
                                 Especialistas em jantes exclusivas, motos de elite e detalhe técnico.
@@ -52,15 +79,15 @@ export function HeroSection({ settings }: HeroSectionProps) {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.2 }}
-                                className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start"
+                                className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start"
                             >
                                 <Button
                                     asChild
                                     size="lg"
-                                    className="h-14 rounded-full pl-8 pr-6 text-base bg-red-600 hover:bg-red-700 text-white border-none"
+                                    className="h-14 w-full sm:w-auto rounded-full px-10 bg-red-600 hover:bg-red-700 text-white border-none font-bold uppercase tracking-wider scale-105 active:scale-95 transition-all shadow-xl shadow-red-600/20"
                                 >
                                     <Link to="/store">
-                                        <span className="text-nowrap font-bold uppercase tracking-wider">Explorar Loja</span>
+                                        EXPLORAR LOJA
                                         <ChevronRight className="ml-2 w-5 h-5" />
                                     </Link>
                                 </Button>
@@ -68,36 +95,12 @@ export function HeroSection({ settings }: HeroSectionProps) {
                                     asChild
                                     size="lg"
                                     variant="ghost"
-                                    className="h-14 rounded-full px-8 text-base border border-white/10 hover:bg-white/5 text-white"
+                                    className="h-14 w-full sm:w-auto rounded-full px-10 border border-white/20 hover:bg-white/10 text-white font-bold uppercase tracking-wider backdrop-blur-sm"
                                 >
-                                    <Link to="/services">
-                                        <span className="text-nowrap font-bold uppercase tracking-wider">Serviços Premium</span>
-                                    </Link>
+                                    <Link to="/services">SERVIÇOS PREMIUM</Link>
                                 </Button>
                             </motion.div>
                         </div>
-                    </div>
-                    <div className="absolute inset-0 overflow-hidden z-0">
-                        {ytId ? (
-                            <div className="absolute inset-0 pointer-events-none scale-150">
-                                <iframe
-                                    className="w-full h-full opacity-40 grayscale"
-                                    src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1`}
-                                    allow="autoplay; encrypted-media"
-                                    frameBorder="0"
-                                ></iframe>
-                            </div>
-                        ) : (
-                            <video
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                className="size-full object-cover opacity-40 grayscale"
-                                src={videoUrl}
-                            ></video>
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent"></div>
                     </div>
                 </div>
             </section>

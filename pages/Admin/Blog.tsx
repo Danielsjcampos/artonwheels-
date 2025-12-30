@@ -77,9 +77,9 @@ export default function AdminBlog({ posts, setPosts, settings }: Props) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         <div className="lg:col-span-1 space-y-6">
-          <div className="bg-[#111] border border-white/5 p-6 rounded-3xl">
+          <div className="bg-[#111] border border-white/5 p-6 rounded-[2rem]">
             <h3 className="text-lg font-bold mb-4 flex items-center space-x-2">
               <List className="w-5 h-5 performance-red" />
               <span>Fila de Produção</span>
@@ -110,7 +110,7 @@ export default function AdminBlog({ posts, setPosts, settings }: Props) {
                   <button 
                     disabled={isGenerating}
                     onClick={() => generatePost(item)}
-                    className="opacity-0 group-hover:opacity-100 p-2 hover:bg-performance-red rounded-lg transition-all"
+                    className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 p-2 hover:bg-performance-red rounded-lg transition-all"
                   >
                     {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                   </button>
@@ -122,7 +122,7 @@ export default function AdminBlog({ posts, setPosts, settings }: Props) {
         </div>
 
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-[#111] border border-white/5 rounded-3xl overflow-hidden">
+          <div className="bg-[#111] border border-white/5 rounded-[2rem] overflow-hidden">
             <div className="p-6 border-b border-white/5 flex items-center justify-between">
               <h3 className="font-bold flex items-center space-x-2">
                 <Globe className="w-5 h-5 text-blue-500" />
@@ -131,15 +131,15 @@ export default function AdminBlog({ posts, setPosts, settings }: Props) {
             </div>
             <div className="divide-y divide-white/5">
               {posts.map(post => (
-                <div key={post.id} className="p-6 flex items-center justify-between hover:bg-white/[0.01]">
+                <div key={post.id} className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-white/[0.01]">
                   <div className="flex items-center space-x-4">
-                    <img src={post.image} className="w-16 h-12 object-cover rounded-lg" />
+                    <img src={post.image} className="w-16 h-12 object-cover rounded-lg flex-shrink-0" />
                     <div>
-                      <h4 className="font-bold text-sm">{post.title}</h4>
+                      <h4 className="font-bold text-sm line-clamp-1">{post.title}</h4>
                       <p className="text-xs text-gray-500 mt-1">{post.date} • {post.author}</p>
                     </div>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex justify-end">
                     <button className="p-2 bg-white/5 rounded-lg hover:bg-white/10" onClick={() => setPosts(posts.filter(p => p.id !== post.id))}>
                       <Trash2 className="w-4 h-4 text-gray-500" />
                     </button>
